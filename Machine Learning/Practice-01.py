@@ -1,4 +1,4 @@
-import sys
+# Practice 01 (Model Representation)
 import matplotlib.pyplot as plt
 import numpy as np 
 
