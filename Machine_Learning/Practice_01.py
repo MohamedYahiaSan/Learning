@@ -16,15 +16,16 @@ b=100
 #plt.xlabel('size in 1000 sqt')
 #plt.show()
 
-def compute_model_ouput(x,w,m,b):
-    f_wb =np.zeros(m)
-    for i in range(m):
-        f_wb[i]=w*x[i]+b
+def compute_model_ouput(x,w,b):
+    m=x.shape[0]
+    tmp_w=np.full((m,),w)
+    tmp_b=np.full((m,),b)
+    f_wb=x*tmp_w+tmp_b
     return f_wb
 #print(compute_model_ouput(x_train,w,m,b))
 
 if __name__=="__main__":
-    tmp_f_wb=compute_model_ouput(x_train,w,m,b)
+    tmp_f_wb=compute_model_ouput(x_train,w,b)
 
 
 #plt.figure(num='Kishou-02')
