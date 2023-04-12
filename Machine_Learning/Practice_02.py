@@ -4,7 +4,7 @@ from Practice_01 import *
 import math
 
 
-
+# Function to compute cost
 def compute_cost(x,y,w,b):
     m=x.shape[0]
     f_wb=compute_model_ouput(x,w,b)
@@ -15,13 +15,13 @@ x_train=np.array([1.0,2.0])
 y_train=np.array([300.0,500.0])
 print(compute_cost(x_train,y_train,0,0))
 
-#x_train=np.array([1.0,1.7,2.0,2.5,3.0,3.2])
-#y_train=np.array([250,300,480,430,630,730])
+# Testin Cases
+x_train=np.array([1.0,1.7,2.0,2.5,3.0,3.2])
+y_train=np.array([250,300,480,430,630,730])
 
 
 
 #Gradient Descent Practice
-
 def compute_gradient(x,y,w,b):
     f_wb=compute_model_ouput(x,w,b)
     dj_w=sum((f_wb-y)*x)/m
@@ -30,6 +30,7 @@ def compute_gradient(x,y,w,b):
     return dj_w,dj_b
 
 
+# Function to execute Gradient Descent on number of iterations
 def gradient_descent (x,y,w,b,alpha,num_iter,cost_function,gradient_function):
     J_history=[]
     P_history=[]
@@ -49,6 +50,7 @@ def gradient_descent (x,y,w,b,alpha,num_iter,cost_function,gradient_function):
                 f'w: {w: 0.3e}, b:{b: 0.3e}')
     return w,b,J_history,P_history
 
+# Application
 if __name__=="__main__":
     w=0
     b=0
