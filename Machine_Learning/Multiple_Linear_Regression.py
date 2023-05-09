@@ -23,8 +23,9 @@ def compute_cost(x,y,w,b):
     cost=cost/(2*m)
     return cost
 
-tmp_cost=compute_cost(x_train,y_train,w,b)
-print(tmp_cost)
+if __name__=="__main__":
+    tmp_cost=compute_cost(x_train,y_train,w,b)
+    print(tmp_cost)
 
 
 # Function to compute the gradient dj_dw dj_db
@@ -96,3 +97,12 @@ if __name__=="__main__":
     ax1.set_ylabel('Cost'); ax2.set_ylabel('Cost')
     ax1.set_xlabel('Iteration Step'); ax2.set_xlabel('Iteration Step')
     plt.show()
+    
+    
+def zscore_normalize_features(X):
+    mu =np.mean(X,axis=0)
+    sigma= np.std(X,axis=0)
+    x_norm=(X-mu)/sigma
+    
+    return (x_norm,sigma,mu)
+

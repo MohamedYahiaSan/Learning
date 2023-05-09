@@ -1,15 +1,16 @@
-def grid(N,M):
-    if N==0 or M==0: return 0
-    
-    dp=[[0 for _ in range (M+1) ] for _ in range (N+1)]
-    dp[1][1]=1
-    for i in range(1,N+1):
-        for j in range(1,M+1):
-           if i==1 or j==1:
-               dp[i][j]=1
-           else:
-               dp[i][j]=dp[i][j-1]+dp[i-1][j] 
-    
-    return dp
+import numpy as np 
 
-print(*grid(18,18),sep='\n')
+x=np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]])
+print(x)
+
+mu=np.mean(x,axis=0)
+#print(mu)
+
+sigma=np.std(x,axis=0)
+#print(sigma)
+
+z=np.array(55)
+result=np.dot([666],z)
+print(result)
+z+=4
+print(z)
