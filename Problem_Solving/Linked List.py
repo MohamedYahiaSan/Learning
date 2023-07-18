@@ -42,12 +42,37 @@ class LinkedList:
         now=now.next
         now.next=temp
         
+    
+    #reverse function
+    def Reverse(self):
+        current=self.head
+        prev= None
+        while(current):
+            tmp=current.next
+            current.next = prev
+            prev=current
+            current=tmp         
+        self.head=prev
+        
+    #Zipper function
+    def Zip(self,second):
+        current=self.head
+        parralel=second.head
+        
+        while(current and parralel):
+            tmpc=current.next
+            tmpp=parralel.next
+            current.next=parralel
+            parralel.next=tmpc
+            current=tmpc
+            parralel=tmpp
+            
         
     #  Function to print the linked list
     def Plist(self):
         current=self.head
         while (current):
-            print(current.data, end=" ++ ")
+            print(current.data, end=" ==> ")
             current=current.next
         print()
 
@@ -55,11 +80,23 @@ class LinkedList:
 # Testing 
 test= LinkedList()
 test.Plist()
-test.add([1,2,3,4])
+test.add(1)
 test.Plist()
-test.add("Kishou")
-test.add("Kishou San")
-test.add(99)
+test.add(2)
+test.add(3)
+test.add(4)
 test.Plist()
 test.insert(5,4)
+test.Plist()
+test.Reverse()
+test.Plist()
+test2=LinkedList()
+
+for i in range(6):
+    test2.add(chr(97+i))
+
+test.Reverse()   
+test.Plist()
+test2.Plist()
+test.Zip(test2)
 test.Plist()
