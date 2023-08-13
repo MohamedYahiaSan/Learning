@@ -1,6 +1,6 @@
 import numpy as np 
 import matplotlib.pyplot as plt
-from Practice_01 import *
+from Machine_Learning.Logistic_Regression_1 import *
 import math
 
 
