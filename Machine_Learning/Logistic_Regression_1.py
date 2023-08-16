@@ -7,7 +7,7 @@ def sigmoid(z):
     return g
 
 # testing
-z_tmp=np.arange(-10,11)
+z_tmp=np.arange(-100,101,10)
 
 y=sigmoid(z_tmp)
 
@@ -45,3 +45,8 @@ y=sigmoid(z)
 #ax.set_ylabel("sigmoid(z)")
 #ax.set_xlabel("z")
 #plt.show()
+
+X=np.array([[0.5,1.5],[1,1],[1.5,0.5],[3,0.5],[2,2],[1,2.5]])
+y=np.array([0,0,0,1,1,1]).reshape(-1,1)
+print(np.c_[X,y])
+
