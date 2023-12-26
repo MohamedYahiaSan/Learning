@@ -18,7 +18,7 @@ def compute_cost(x,y,w,b):
 def compute_gradient(x,y,w,b):
     m,n=x.shape
     dw=np.zeros((n,))
-    db=np.float128(0)
+    db=np.longdouble(0)
     
     for i in range(m):
         err=((b+np.dot(w,x[i]))-y[i])
