@@ -55,8 +55,8 @@ print(np.c_[X,y])
 
 
 X_train = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])  #(m,n)
-y_train = np.array([0, 0, 0, 1, 1, 1])
-                                           #(m,)
+y_train = np.array([0, 0, 0, 1, 1, 1])    #(m,)
+                                           
 # Loss function and Cost calculation for Logistic Regression
 def compute_cost_logistic(X,y,w,b):
     m=X.shape[0]
@@ -70,6 +70,25 @@ def compute_cost_logistic(X,y,w,b):
     cost=cost/m
 
     return cost
+
+# Compute cost with Regularization
+def compute_cost_logistic_reg(X,y,w,b,lambda_=1):
+    m,n=X.shape
+    cost=0.
+    for i in range(m):
+        z_i=np.dot(X[i],w)+b
+        f_wb_i=sigmoid(z_i)
+        cost+= -y[i]* np.log(f_wb_i) - (1-y[i]) * np.log(1-f_wb_i)
+
+    cost=cost/m
+
+    reg_cost=0
+    for j in range(n):
+        reg_cost+=w[j]**2
+    reg_cost=reg_cost*(lambda_/(2*m))
+
+    total_cost=cost+reg_cost
+    return total_cost
 
 #small test
 w_tmp=np.array([1,1])
@@ -96,10 +115,29 @@ def compute_gradient_logistic(X,y,w,b):
 
     return dj_db, dj_dw
 
+# Computing gradient with reg
+def compute_gradient_logistic_reg(X,y,w,b,lambda_=1):
+    m,n=X.shape
+    dj_dw=np.zeros((n,))
+    dj_db=0
+
+    for i in range(m):
+        f_wb_i=sigmoid(np.dot(X[i],w)+b)
+        err_i=f_wb_i - y[i]
+        for j in range(n):
+            dj_dw[j]=dj_dw[j] + err_i* X[i,j] +(lambda_/m) * w[j]
+        dj_db+=err_i
+
+    dj_db=dj_db/m
+    dj_dw=dj_dw/m
+
+    return dj_db,dj_dw
+
+
 # Testing the gradient with the training data
 w_tmp = np.array([2.,3.])
 b_tmp = 1.
-dj_db_tmp, dj_dw_tmp = compute_gradient_logistic(X_train, y_train, w_tmp, b_tmp)
+dj_db_tmp, dj_dw_tmp = compute_gradient_logistic_reg(X_train, y_train, w_tmp, b_tmp)
 print(f"dj_db: {dj_db_tmp}" )
 print(f"dj_dw: {dj_dw_tmp.tolist()}" )
 
@@ -113,13 +151,13 @@ def gradient_descent (X,y, w_in, b_in, alpha,num_iters):
 
 
     for i in range(num_iters):
-        dj_db,dj_dw=compute_gradient_logistic(X,y,w,b)
+        dj_db,dj_dw=compute_gradient_logistic_reg(X,y,w,b)
 
         w-=alpha*dj_dw
         b-=alpha*dj_db
 
         if i<100000:
-            J_history.append(compute_cost_logistic(X,y,w,b))
+            J_history.append(compute_cost_logistic_reg(X,y,w,b))
 
         if i% math.ceil(num_iters/10)==0:
             print(f'Iteration {i:4d}: Cost {J_history[-1]}')
@@ -139,5 +177,5 @@ print(f'\nupdated paras: w:{w_out} b:{b_out}')
 lr_model=LogisticRegression()
 lr_model.fit(X_train,y_train)
 y_pred= lr_model.predict(X_train)
-print("prediction on training set:", y_pred,"\n actuall data:",y_train)
+print("prediction on training set:", y_pred,"\nactuall data:",y_train)
 print('Accuracy:,',lr_model.score(X_train,y_train))

@@ -23,6 +23,24 @@ def compute_cost(x,y,w,b):
     cost=cost/(2*m)
     return cost
 
+#Computing the cost with Regulaization
+def compute_cost_reg(x,y,w,b,lambda_=1):
+    m=x.shape[0]
+    n=len(w)
+    cost=0.
+    for i in range(m):
+        f_wb_i=np.dot(x[i],w)+b
+        cost+=(f_wb_i-y[i])**2
+    
+    reg_cost=0
+    for j in range(n):
+        reg_cost+=w[j]**2
+    reg_cost=(lambda_/(2*m))*reg_cost
+
+    total_cost=cost+reg_cost
+    return total_cost
+
+
 if __name__=="__main__":
     tmp_cost=compute_cost(x_train,y_train,w,b)
     print(tmp_cost)
@@ -46,6 +64,23 @@ def compute_gradient(x,y,w,b):
     
     return dj_db,dj_dw
 
+# computing gradient with Regularizatoin
+def compute_gradient_reg(x,y,w,b,lambda_=1):
+    m,n=x.shape
+    dj_dw=np.zeros((n,))
+    dj_db=0.
+
+    for i in range(m):
+        err=( np.dot(x[i],w)+b )- y[i]
+        for j in range(n):
+            dj_dw[j]+= err*x[i,j]+(lambda_/m)*w[j]
+        dj_db+=err
+
+    dj_dw=dj_dw/m
+    dj_db=dj_db/m
+
+    return dj_db,dj_dw
+    
 
 if __name__=="__main__":
     tmp_dj_db,tmp_dj_dw=compute_gradient(x_train,y_train,w,b)
@@ -79,7 +114,7 @@ if __name__=="__main__":
     
     iterations=1000
     alpha=8.0e-7
-    w_final,b_final,hist=gradient_descent(x_train,y_train,w,b,alpha,compute_cost,compute_gradient,iterations)
+    w_final,b_final,hist=gradient_descent(x_train,y_train,w,b,alpha,compute_cost_reg,compute_gradient_reg,iterations)
     
     print(f'b,w found by the gradient descent: {b_final:0.2f}, {w_final}')
     
@@ -105,4 +140,6 @@ def zscore_normalize_features(X):
     x_norm=(X-mu)/sigma
     
     return (x_norm,sigma,mu)
+
+
 
