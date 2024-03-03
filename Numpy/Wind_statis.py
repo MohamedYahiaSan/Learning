@@ -46,7 +46,7 @@ plt.title('Wind Speed to Year Scatter Plot')
 plt.xlabel('Years')
 plt.ylabel('Speeds in MPH')
 plt.xticks(np.arange(2006,2024))
-plt.show()
+plt.figure()
 sns.kdeplot(speed.flatten(), fill=True, color='skyblue', label='Speeds KDE')
 plt.show()
   
