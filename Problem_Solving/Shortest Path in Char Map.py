@@ -5,8 +5,8 @@ Char Map: txt
 #Char Map
 txt=[
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "XXSXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "XX.XXXXXXXXXXXXX.....XXXXXXXXXXX",
+    "XXX.........SXXXXXXXXXXXXXXXXXXX",
+    "XX.X.....XXXXXXX.....XXXXXXXXXXX",
     "XX....XXXXXXXXXX.XXX.XX.....XXXX",
     "XXXXX..XXXXXX....XXX.XX.XXX.XXXX",
     "XXX.XX.XXXXXX.XX.XXX.XX..XX.XXXX",
@@ -38,7 +38,7 @@ class node:
         self.i = i
         self.j = j
         self.adjacent=[]
-        self.visited = False
+        self.visited = set()
         self.path=[]
 
 #Transfroming opening slots into nodes and reading the start and goal 
@@ -79,7 +79,6 @@ path=[]                                     #Paths from start to goal
 while True:                                 #Traversing the map
     if queue==[]: break                     #Break condition
     n=queue.pop()
-    n.visited=True
     
     if arrived(n,goal):                     #Check for arrival
         n.path.append((n.i,n.j))
@@ -87,8 +86,14 @@ while True:                                 #Traversing the map
         print('arrived')
 
     for ele in n.adjacent:                  #Updating the queue and the path for new nodes
-        if not ele.visited: 
-            ele.path+=n.path+[(n.i,n.j)]
+        if not ele in n.visited: 
+            ele.visited=n.visited.copy()
+            ele.visited.add(n)
+            #The below section is to make sure each node only stores the shorted path from start untill arrival at self
+            if ele.path== []: ele.path=n.path+[(n.i,n.j)]
+            else: 
+                if len(ele.path)<len(n.path+[(n.i,n.j)]): pass
+                else: ele.path=n.path+[(n.i,n.j)]
             queue.append(ele)
 
 #Choosing the shortest path
